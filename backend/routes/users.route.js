@@ -5,6 +5,7 @@ import { getUser, getUserByUsername } from "../services/users.service.js";
 import { cleanParams } from "../middlewares/cleaner.middleware.js";
 import { getUser as getUserSchema, getUserByUsername as getUserByUsernameSchema } from "../schemas/users.schema.js";
 import httpStatusCodes from "http-status-codes";
+import { env } from "../config.js";
 
 
 const router = Router();
@@ -33,7 +34,8 @@ router.get('/:userId', cleanParams, expressYupMiddleware({ schemaValidator: getU
 
 router.post('/logout', async (req, res) => {
     //const { limit } = req.query;
-    res.clearCookie("token")
+    //res.clearCookie("token")
+    res.cookie('token',  '', { httpOnly: true, secure: true,  domain: env.COOKIE_DOMAIN, sameSite: 'strict' , expires: new Date(1, 1, 1970)})
     return res.status(httpStatusCodes.OK).json({});
 });
 export default router;

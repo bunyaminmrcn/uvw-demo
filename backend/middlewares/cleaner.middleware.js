@@ -19,7 +19,7 @@ const cleanQuery = (req, res, next) => {
 const cleanParams = (req, res, next) => {
     const params = req.params;
     const sanitizedData = sanitize.prepareSanitize(params, { xss: true, sql: true, noSql: true, level: 5})
-    req.query = sanitizedData;
+    req.params = sanitizedData;
     next();
 }
 

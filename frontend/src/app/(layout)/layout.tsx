@@ -28,10 +28,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const { logoutUser } = useAuth();
     const router = useRouter();
 
-    const { token, isAuthenticated, setOK, user } = useSelector((state: RootState) => state.auth);
+    const { isAuthenticated, setOK, user } = useSelector((state: RootState) => state.auth);
 
     const logout = () => {
-        logoutUser(token as string);
+        //logoutUser(token as string);
+        router.replace('/auth/logout');
     }
     useEffect(() => {
         if (!isAuthenticated && setOK) {

@@ -104,6 +104,9 @@ const authSlice = createSlice({
         },
         setAuthOp: (state) => {
             state.setOK = true;
+        },
+        resetRedirect: (state) => {
+            state.redirect = null;
         }
     },
     extraReducers: (builder) => {
@@ -144,6 +147,8 @@ const authSlice = createSlice({
                 localStorage.removeItem('token');
                 state.token = null
                 state.user = null;
+                state.setOK = false;
+                state.redirect = '/auth/login';
             })
             .addCase(logout.rejected, (state, action) => {
                 state.loading = false
@@ -152,5 +157,5 @@ const authSlice = createSlice({
     },
 });
 
-export const { logoutStore, setAuth, setToken, setAuthOp } = authSlice.actions;
+export const { logoutStore, setAuth, setToken, setAuthOp,resetRedirect } = authSlice.actions;
 export default authSlice.reducer;

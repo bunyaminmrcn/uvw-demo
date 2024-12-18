@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  
+
   const token = request.cookies.get('token')?.value
 
   // Check if the user is trying to access a protected route
@@ -20,10 +20,14 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/dashboard', request.url))
     }
   }
-
+  if (request.nextUrl.pathname === '/auth/logout') {
+    if (token)
+      request.cookies.delete('token');
+    return NextResponse.redirect(new URL('/auth/login', request.url))
+  }
   return NextResponse.next()
 }
 
 export const config = {
-  matcher: [ '/dashboard/:path*','/posts/:path*', '/auth/login']
+  matcher: ['/dashboard/:path*', '/posts/:path*', '/auth/login']
 }
