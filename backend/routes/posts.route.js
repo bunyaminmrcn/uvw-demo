@@ -36,8 +36,9 @@ router.get('/:id', cleanParams, expressYupMiddleware({ schemaValidator: postsSch
 //POST /api/posts
 router.post('/', cleanBody, expressYupMiddleware({ schemaValidator: postsSchema.addPost }), async (req, res) => {
     const { title, content, authorId, tags } = req.body;
+    console.log({authorId, uid: req.user.id});
     
-    const addPostResponse = await postsService.add({ title, content, authorId: authorId  ?? (req.user.id), tags })
+    const addPostResponse = await postsService.add({ title, content, authorId: (req.user.id)  ?? authorId , tags })
     return res.status(addPostResponse.status).json({ data: addPostResponse.data, error: addPostResponse.error });
 });
 

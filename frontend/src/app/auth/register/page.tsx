@@ -6,8 +6,13 @@ import { Label } from "@/components/ui/label"
 import { useEffect, useState } from "react"
 import { useAuth } from '@/hooks/useAuth'
 import { useRouter } from "next/navigation"
+import { resetRedirect } from "@/rtk/slices/authSlice"
+import type { AppDispatch } from "@/rtk/store"
+import { useDispatch } from "react-redux"
 
 export default function RegisterForm() {
+    const dispacth = useDispatch<AppDispatch>();
+
     const [name, setName] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -24,9 +29,9 @@ export default function RegisterForm() {
 
     useEffect(() => {
         if (redirect) {
+            dispacth(resetRedirect());
             router.push(redirect as string)
         }
-
     }, [redirect])
     return (
         <>

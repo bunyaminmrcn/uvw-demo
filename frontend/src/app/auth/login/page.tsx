@@ -26,6 +26,7 @@ export default function LoginForm() {
 
     useEffect(() => {
         if (isAuthenticated) {
+            console.log("Authenticated")
             router.replace("/dashboard")
         }
     }, [isAuthenticated])

@@ -16,18 +16,22 @@ export function middleware(request: NextRequest) {
   // Check if the user is trying to access login page while already authenticated
   if (request.nextUrl.pathname === '/auth/login') {
     if (token) {
+      console.log("Here dashboard redirect")
       // Redirect to dashboard if there's a token
       return NextResponse.redirect(new URL('/dashboard', request.url))
     }
   }
   if (request.nextUrl.pathname === '/auth/logout') {
-    if (token)
+    if (token) {
+      console.log("Remove token")
       request.cookies.delete('token');
+    }
+    console.log("Here logout redirect")
     return NextResponse.redirect(new URL('/auth/login', request.url))
   }
   return NextResponse.next()
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/posts/:path*', '/auth/login']
+  matcher: ['/dashboard/:path*', '/posts/:path*', '/auth/login', '/auth/logouts']
 }

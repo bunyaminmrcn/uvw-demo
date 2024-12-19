@@ -46,16 +46,19 @@ export async function getMe(token: string): Promise<Author | null> {
 
 export function App({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch();
-  const { isAuthenticated, user, token: localToken } = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated, token: localToken, setOK } = useSelector((state: RootState) => state.auth);
   const [called, setCalled] = useState(false)
   const authState = async () => {
     const token = Cookie.get('token') || localStorage.getItem('token');
     const user = await getMe(token as string);
     dispatch(setAuthOp());
     if(user) {
+      console.log("user set")
       dispatch(setAuth({ user }));
       dispatch(setToken({ token: token as string }));
       setCalled(true)
+    } else {
+      console.log("no user set")
     }
   }
 
@@ -63,6 +66,13 @@ export function App({ children }: { children: React.ReactNode }) {
     console.log({ msg : 'call'})
     authState()
   }, [])
+
+  useEffect(()=> {
+    if(!setOK) {
+      console.log("Reset Called")
+      setCalled(prev => false);
+    }
+  }, [setOK])
   useEffect(() => {
     if(isAuthenticated && !called) {
       //alert("CALLED")
