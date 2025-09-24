@@ -13,7 +13,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import Link from "next/link";
 import { ArrowDownRightFromSquareIcon } from 'lucide-react'
 
-const  NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL as string;
+const  NEXT_PUBLIC_API = process.env.NEXT_PUBLIC_API as string;
 type Params = Promise<{ username: string }>
 export default (props: { params: Params}) => {
    
@@ -28,7 +28,7 @@ export default (props: { params: Params}) => {
         if (!token) {
             throw new Error('Authentication token not found')
         }
-        const res = await fetch(`${NEXT_PUBLIC_API_URL}/api/users/getByUserName/${username}`, {
+        const res = await fetch(`${NEXT_PUBLIC_API}/api/users/getByUserName/${username}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             },
@@ -50,7 +50,7 @@ export default (props: { params: Params}) => {
             throw new Error('Authentication token not found')
             //return []
         }
-        const res = await fetch(`${NEXT_PUBLIC_API_URL}/api/posts/user/${userId}`, {
+        const res = await fetch(`${NEXT_PUBLIC_API}/api/posts/user/${userId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             },

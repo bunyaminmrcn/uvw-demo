@@ -23,13 +23,13 @@ const initialState: AuthState = {
     setOK: false
 };
 
-const  NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL as string;
+const  NEXT_PUBLIC_API = process.env.NEXT_PUBLIC_API as string;
 
 export const login = createAsyncThunk(
     'auth/login',
     async (credentials: { username: string; password: string }, { rejectWithValue }) => {
         try {
-            const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/auth/login`, {
+            const response = await fetch(`${NEXT_PUBLIC_API}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(credentials),
@@ -49,7 +49,7 @@ export const register = createAsyncThunk(
     'auth/register',
     async (credentials: { username: string; password: string, password_again: string, name: string }, { rejectWithValue }) => {
         try {
-            const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/auth/register`, {
+            const response = await fetch(`${NEXT_PUBLIC_API}/api/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(credentials),
@@ -67,7 +67,7 @@ export const logout = createAsyncThunk(
     'auth/logout',
     async (token: string, { rejectWithValue }) => {
         try {
-            const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/users/logout`, {
+            const response = await fetch(`${NEXT_PUBLIC_API}/api/users/logout`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -87,10 +87,10 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setAuth: (state, action: PayloadAction<{ user: Author | null }>) => {
-            if (action.payload.user) {
+        setAuth: (state, action: PayloadAction<{ data: {user: Author | null} }>) => {
+            if (action.payload.data.user) {
                 state.isAuthenticated = true;
-                state.user = action.payload.user;
+                state.user = action.payload.data.user;
             }
         },
         setToken: (state, action: PayloadAction<{ token: string }>) => {
@@ -104,6 +104,7 @@ const authSlice = createSlice({
         },
         setAuthOp: (state) => {
             state.setOK = true;
+            state.redirect = null
         },
         resetRedirect: (state) => {
             state.redirect = null;
@@ -121,6 +122,7 @@ const authSlice = createSlice({
                 //console.log("Local token is set")
                 state.token = action.payload.data.token;
                 state.loading = false
+                state.redirect = "/dashboard"
             })
             .addCase(login.rejected, (state, action) => {
                 state.loading = false

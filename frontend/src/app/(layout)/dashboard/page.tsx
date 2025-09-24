@@ -30,7 +30,7 @@ type SearchParam = {
     limit: number | null;
     page: number | null;
 }
-const  NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL as string;
+const  NEXT_PUBLIC_API = process.env.NEXT_PUBLIC_API as string;
 async function getPosts(query: SearchParam): Promise<Post[]> {
     const queryString = objectToQuery(query);
     const token = await getAuthToken()
@@ -39,7 +39,7 @@ async function getPosts(query: SearchParam): Promise<Post[]> {
         //throw new Error('Authentication token not found')
         return []
     }
-    const res = await fetch(`${NEXT_PUBLIC_API_URL}/api/posts?${queryString}`, {
+    const res = await fetch(`${NEXT_PUBLIC_API}/api/posts?${queryString}`, {
         headers: {
             'Authorization': `Bearer ${token}`,
         },

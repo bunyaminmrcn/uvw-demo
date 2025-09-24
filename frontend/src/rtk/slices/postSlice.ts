@@ -25,14 +25,14 @@ const initialState: PostState = {
     deletedPost: null
 };
 
-const  NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL as string;
+const  NEXT_PUBLIC_API = process.env.NEXT_PUBLIC_API as string;
 
 export const createPost = createAsyncThunk(
     'post/new',
     async (postBody: NewPostRequest, { rejectWithValue }) => {
         try {
             const { token, ...body } = postBody;
-            const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/posts`, {
+            const response = await fetch(`${NEXT_PUBLIC_API}/api/posts`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' ,'Authorization': `Bearer ${token}`},
                 body: JSON.stringify(body)
@@ -51,7 +51,7 @@ export const updatePost = createAsyncThunk(
     async (putBody: UpdatePostRequest, { rejectWithValue }) => {
         try {
             const { token, _id, ...body } = putBody;
-            const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/posts/${_id}`, {
+            const response = await fetch(`${NEXT_PUBLIC_API}/api/posts/${_id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' ,'Authorization': `Bearer ${token}`},
                 body: JSON.stringify(body)
@@ -70,7 +70,7 @@ export const deletePost = createAsyncThunk(
     async (deleteBody: DeletePostRequest, { rejectWithValue }) => {
         try {
             const { token, _id } = deleteBody;
-            const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/posts/${_id}`, {
+            const response = await fetch(`${NEXT_PUBLIC_API}/api/posts/${_id}`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' ,'Authorization': `Bearer ${token}`},
                 //body: JSON.stringify(body)

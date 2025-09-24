@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useEffect, useState } from "react"
 import { useAuth } from '@/hooks/useAuth'
-import { useRouter } from "next/navigation"
+import { useRouter, redirect } from "next/navigation"
 import { useSelector } from "react-redux"
 import { RootState } from "@/rtk/store"
 export default function LoginForm() {
@@ -24,12 +24,7 @@ export default function LoginForm() {
     }
 
 
-    useEffect(() => {
-        if (isAuthenticated) {
-            console.log("Authenticated")
-            router.replace("/dashboard")
-        }
-    }, [isAuthenticated])
+   
     return (<>
         {error && <p className="text-red-500">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">

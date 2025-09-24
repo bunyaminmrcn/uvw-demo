@@ -19,10 +19,10 @@ const login = async ({ username, password }) => {
                 if (!isMatch) {
                     resolve({ status: httpStatusCodes.BAD_REQUEST, data: null, error: { msg: 'Credential error' } })
                 }
-                const payload = { id: user.id, name: user.name, username: user.username };
+                const payload = { id: user._id, name: user.name, username: user.username };
                 const token = jwt.sign(payload, env.JWT_SECRET);
 
-                resolve({ status: httpStatusCodes.OK, data: { token }, error: null })
+                resolve({ status: httpStatusCodes.OK, data: { token, user: payload }, error: null })
             })
         })
         return compareOp;

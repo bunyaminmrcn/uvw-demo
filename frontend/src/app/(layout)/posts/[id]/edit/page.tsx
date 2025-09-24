@@ -15,7 +15,7 @@ interface PageProps {
 }
 type Params = Promise<{ id: string }>
 
-const  NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL as string;
+const  NEXT_PUBLIC_API = process.env.NEXT_PUBLIC_API as string;
 const EditPostPage = (props: { params: Params }) => {
     const [post, setPost] = useState<Post | null>(null)
     const router = useRouter();
@@ -26,7 +26,7 @@ const EditPostPage = (props: { params: Params }) => {
     const getPost = async (token: string, id: string) : Promise<any> => {
         //console.log({ token })
         try {
-            const res = await fetch(`${NEXT_PUBLIC_API_URL}/api/posts/${id}`, {
+            const res = await fetch(`${NEXT_PUBLIC_API}/api/posts/${id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },

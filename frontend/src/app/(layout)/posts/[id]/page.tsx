@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { deletePost, clearDeleted } from "@/rtk/slices/postSlice";
 import { useToast } from "@/hooks/use-toast";
 import moment from "moment";
-const  NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL as string;
+const  NEXT_PUBLIC_API = process.env.NEXT_PUBLIC_API as string;
 type Params = Promise<{ id: string }>
 export default (props: { params: Params}) => {
     //const [isEditing, setIsEditing] = useState(false);
@@ -28,7 +28,7 @@ export default (props: { params: Params}) => {
 
     const getPost = async (token: string) => {
 
-        const res = await fetch(`${NEXT_PUBLIC_API_URL}/api/posts/${id}`, {
+        const res = await fetch(`${NEXT_PUBLIC_API}/api/posts/${id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             },
