@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import Cookie from 'js-cookie'
 
 export function middleware(request: NextRequest) {
 
   const token = request.cookies.get('token')?.value
 
   // Check if the user is trying to access a protected route
-  if (request.nextUrl.pathname.startsWith('/dashboard') || request.nextUrl.pathname.startsWith('/posts') || request.nextUrl.pathname.endWith('/')) {
+  if (request.nextUrl.pathname.startsWith('/dashboard') || request.nextUrl.pathname.startsWith('/posts') || request.nextUrl.pathname.endsWith('/')) {
     if (!token) {
       // Redirect to login if there's no token
       return NextResponse.redirect(new URL('/auth/login', request.url))
@@ -25,6 +26,9 @@ export function middleware(request: NextRequest) {
     if (token) {
       console.log("Remove token")
       request.cookies.delete('token');
+      
+      Cookie.remove('token', { path: '/', httpOnly: true , domain: 'localhost', secure: true, sameSite: 'strict'})
+      return NextResponse.redirect(new URL('/auth/login', request.url))
     }
     console.log("Here logout redirect")
     return NextResponse.redirect(new URL('/auth/login', request.url))
@@ -33,6 +37,6 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/posts/:path*', '/auth/login', '/auth/logouts', '/:path*'
+  matcher: ['/dashboard/:path*', '/posts/:path*', '/auth/login', '/'
   ]
 }

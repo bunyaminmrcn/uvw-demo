@@ -59,7 +59,7 @@ async function getPosts(query: SearchParam): Promise<Post[]> {
 
 
 export default async function BlogDashboard({ searchParams }: { searchParams: any }) {
-    const { title, content, authorName, tags, limit, page } =await searchParams
+    const { title, content, authorName, tags, limit, page } = await searchParams
     const posts = await getPosts({ title, content, authorName, tags, limit, page });
     const authors = [...new Set(posts.map(post => post?.author?.username || ''))]
     const allTags = [...new Set(posts.flatMap(post => post.tags))]

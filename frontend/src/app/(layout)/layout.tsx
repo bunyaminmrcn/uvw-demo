@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Cookie from 'js-cookie';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const { logoutUser } = useAuth();
@@ -32,7 +33,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     const logout = () => {
         //logoutUser(token as string);
-        router.replace('/auth/logout');
+        //Cookie.remove('token', { httpOnly: true , domain: 'uvw-demo.youthobby.com', secure: true, sameSite: 'strict'})
+        router.replace('/auth/logout')
+        //router.replace('/auth/logout');
     }
     useEffect(() => {
         if (!isAuthenticated && setOK) {

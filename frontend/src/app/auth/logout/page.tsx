@@ -14,17 +14,24 @@ export default function LogoutButton() {
 
     const { token, redirect } = useSelector((state: RootState) => state.auth);
     const { logoutUser } = useAuth();
+    const logoutAction = () => {
+        //dispatch(logoutStore())
+
+        logoutUser(token as string)
+    }
+
+
+    useEffect(() => {
+        logoutAction()
+    }, [])
+
     useEffect(() => {
         if (redirect) {
             dispatch(resetRedirect())
             router.replace(redirect as string)
         }
     }, [redirect])
-    const logoutAction = () => {
-        //dispatch(logoutStore())
-
-        logoutUser(token as string)
-    }
+    
     return (
         <button
             onClick={() => logoutAction()}

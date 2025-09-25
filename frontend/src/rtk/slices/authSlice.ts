@@ -3,6 +3,7 @@
 import { Author } from '@/models/author';
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 
+import Cookie from 'js-cookie';
 interface AuthState {
     token: string | null;
     isAuthenticated: boolean;
@@ -151,6 +152,7 @@ const authSlice = createSlice({
                 state.user = null;
                 state.setOK = false;
                 state.redirect = '/auth/login';
+                Cookie.remove('token', { path: '/', httpOnly: true , domain: 'localhost', secure: true, sameSite: 'strict'})
             })
             .addCase(logout.rejected, (state, action) => {
                 state.loading = false

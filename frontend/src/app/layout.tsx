@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 
 import { useRouter, redirect as redirectMain } from "next/navigation"
 import { useDispatch } from 'react-redux';
-import { setAuth ,setToken, setAuthOp} from '@/rtk/slices/authSlice';
+import { setAuth ,setToken, setAuthOp, resetRedirect} from '@/rtk/slices/authSlice';
 import { Toaster } from "@/components/ui/toaster"
 const  NEXT_PUBLIC_API = process.env.NEXT_PUBLIC_API as string;
 
@@ -69,11 +69,19 @@ export function App({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
 
-    if(redirect) {
+    if(redirect == "/dashboard") {
       const token = Cookie.get('token') || localStorage.getItem('token')
       Cookie.set('token', token as string)
       router.replace("/dashboard")
-    }
+      authState()
+    } else if (redirect) {
+      Cookie.remove('token', { path: '/' })
+       
+      router.replace(redirect)
+      dispatch(resetRedirect());
+    } 
+    
+
     
   }, [isAuthenticated, redirect])
   useEffect(() => {
