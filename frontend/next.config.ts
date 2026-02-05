@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+
   webpack: (config, { isServer }) => {
     // Only run on client-side builds
     if (!isServer) {
