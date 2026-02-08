@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-const loadEnv = dotenv.config({ path: process.env.dev == '1' ? './.env.development' : './.env.production' })
+const loadEnv = dotenv.config({ path: process.env.dev == '1' ? './.env.development' : './.env.production1' })
 
 
 const env = (loadEnv.error ? { PORT : 5000 }: loadEnv.parsed);
